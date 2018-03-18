@@ -39,15 +39,22 @@ public:
            threshold(*image,*image, thresh, maxValue,  ADAPTIVE_THRESH_MEAN_C);
     }
 
+
+
+
+
     void imagemorph(Mat *image){
         //           morphological operations
 
 
                    int dilSize = 5;
                    Mat kern = cv::getStructuringElement( CV_SHAPE_ELLIPSE, cv::Size( dilSize , dilSize  ) );
-                   //morphologyEx(image,image,MORPH_OPEN,kern);
+
                    morphologyEx(*image,*image,MORPH_CLOSE,kern);
     }
+
+
+
 
     void imageedge(Mat *image, Mat *detected_edges){
                    int lowThreshold=30;
@@ -102,11 +109,11 @@ public:
                            for (int i = 0; i < (int)(contours.size()); i++)
                            {
                                // Get bounding box for contour
-                               Rect roi = boundingRect(contours[i]); // This is a OpenCV function
+                               Rect roi = boundingRect(contours[i]);
 
                                // Create a mask for each contour to mask out that region from image.
                                Mat mask = Mat::zeros(image_original.size(), CV_8UC1);
-                               drawContours(mask, contours, i, Scalar(255), CV_FILLED); // This is a OpenCV function
+                               drawContours(mask, contours, i, Scalar(255), CV_FILLED);
 
                                // At this point, mask has value of 255 for pixels within the contour and value of 0 for those not in contour.
 
@@ -115,10 +122,7 @@ public:
                                Mat imageROI;
                                image_original.copyTo(imageROI, mask); // 'image' is the image you used to compute the contours.
                                contourRegion = imageROI(roi);
-                               // Mat maskROI = mask(roi); // Save this if you want a mask for pixels within the contour in contourRegion.
 
-                               // Store contourRegion. contourRegion is a rectangular image the size of the bounding rect for the contour
-                               // BUT only pixels within the contour is visible. All other pixels are set to (0,0,0).
                                subregions.push_back(contourRegion);
 
                                vector<Vec3f> circles;
@@ -136,7 +140,7 @@ public:
                                                   ++itc1;
                                                   ++count;
                                               }
-                                              cout<<"Die number "<<i<<" has value: "<<count<<endl;
+                                              cout<<"Die number "<<(i+1)<<" has value: "<<count<<endl;
                            }
                            if(contours.size()==0)
                                cout<<"No dices are present"<<endl;
