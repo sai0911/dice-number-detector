@@ -156,15 +156,15 @@ int main( )
     Mat image,dst,image_original,detected_edges;
     vector<vector<Point>> contours;
     dices d;
-           string filename = "/home/sai/Desktop/dice/1 - Count Dice Dots/dice4.png";
-           image_original = dices().loadimage(filename);
+           string filename = "/home/sai/Desktop/dice/1 - Count Dice Dots/dice6.png";
+           image_original = d.loadimage(filename);
            if(image_original.empty())
                return -1;
            d.colorconvert(&image, &image_original);
            d.imagethreshold(&image);
            d.imagemorph(&image);
            d.imageedge(&image, &detected_edges);
-           contours = dices().image_findcountours(&detected_edges);
+           contours = d.image_findcountours(&detected_edges);
            d.image_contourthreshold(&contours);
 
            d.draw_contour(&image_original,&contours);
